@@ -148,16 +148,21 @@ def get_cairo_flags():
     libraries = []
     includes = []
     links = []
+    
     try:
-        cairo = pkg_config(['--modversion cairo'])
-        HAS_CAIRO = True
-        includes.append('-DHAVE_CAIRO')
-        links.append(
-            pkg_config(['--libs cairo'])
-        )
-        includes.append(
-            pkg_config(['--cflags cairo'])
-        )
+        cairo = mapnik_config(['--dep-libs'])
+        if 'cairo' in cairo:
+            cairo = pkg_config(['--modversion cairo'])
+            HAS_CAIRO = True
+            includes.append('-DHAVE_CAIRO')
+            links.append(
+                pkg_config(['--libs cairo'])
+            )
+            includes.append(
+                pkg_config(['--cflags cairo'])
+            )
+        else:
+            HAS_CAIRO = False
     except:
        HAS_CAIRO = False
     if HAS_CAIRO:

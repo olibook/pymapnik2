@@ -2,9 +2,14 @@ import sys
 
 import re
 import os
-from subprocess import Popen, PIPE, check_output
+from subprocess import Popen, PIPE
 from ctypes import CDLL
 
+#
+def check_output(*args):
+    output = subprocess.Popen(args, stdout=subprocess.PIPE).communicate()[0]
+    return output
+    
 def read(rnames):
     setupdir = os.getcwd()
     return open(
